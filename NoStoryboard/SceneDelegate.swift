@@ -16,8 +16,54 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
-    }
+        
+        
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let replicateVC = UINavigationController(rootViewController: replicateVC())
+        replicateVC.navigationBar.prefersLargeTitles = true
+        replicateVC.navigationItem.largeTitleDisplayMode = .always
+        
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = createTabbar()
+        window?.makeKeyAndVisible()
+    
+        
+        
+        func createDashboardVC() -> UINavigationController {
+            let dashboardVC = DashboardVC()
+            dashboardVC.title = "Dashboard"
+            dashboardVC.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "documents"), tag: 0)
+            
+            return UINavigationController(rootViewController: dashboardVC)
+            }
+        
+        
+        func createFoodsafetyVC() -> UINavigationController {
+            let foodSafetyVC = FoodsafetyVC()
+            foodSafetyVC.title = "Documents"
+            foodSafetyVC.tabBarItem = UITabBarItem(title: "Food Safety", image: UIImage(named: "warning"), tag: 1)
+            
+            UINavigationBar.appearance().tintColor = UIColor.systemOrange
+            
+            return UINavigationController(rootViewController: foodSafetyVC)
+            
+            
+            }
+        
+        
+        func createTabbar() -> UITabBarController {
+            let tabbar = UITabBarController()
+            
+            tabbar.viewControllers = [createDashboardVC(), createFoodsafetyVC()]
+            
+            UITabBar.appearance().tintColor = UIColor.systemOrange
+            
+            return tabbar
+        }
+
+
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
@@ -50,3 +96,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+}
